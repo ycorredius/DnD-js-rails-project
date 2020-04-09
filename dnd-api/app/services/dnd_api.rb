@@ -23,8 +23,10 @@ class DndApi
         result = []
         proficiencies = HTTParty.get("#{BASE_URL}proficiencies/")
         proficiencies['results'].each do |p|
-            result.append(p)
+            result.append(proficencies_by_index = HTTParty.get("#{BASE_URL}proficiencies/#{p['index']}"))
         end
         result
     end
+
+    
 end
