@@ -28,5 +28,13 @@ class DndApi
         result
     end
 
+    def self.races
+        result = []
+        races = HTTParty.get(HTTParty.get("#{BASE_URL}races/")
+        races['results'].each do |r|
+            result.append(races_by_index = HTTParty.get("#{BASE_URL}RACES/#{r['index']}"))
+        end
+        result
+    end
     
 end
