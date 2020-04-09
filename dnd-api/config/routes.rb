@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   resources :characters
   resources :proficiencies
   resources :equipment
-  resources :charaterclasses
+  resources :characterclasses
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+
+  root to: 'welcome#index'
 end
