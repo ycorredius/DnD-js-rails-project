@@ -19,7 +19,7 @@ class DndApi
         result
     end
 
-    def self.proficiencies
+    def self.proficencies
         result = []
         proficiencies = HTTParty.get("#{BASE_URL}proficiencies/")
         proficiencies['results'].each do |p|

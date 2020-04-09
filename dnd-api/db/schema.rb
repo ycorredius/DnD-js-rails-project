@@ -14,7 +14,7 @@ ActiveRecord::Schema.define(version: 2020_04_08_155722) do
 
   create_table "characterclasses", force: :cascade do |t|
     t.string "index"
-    t.string "hit_die"
+    t.integer "hit_die"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

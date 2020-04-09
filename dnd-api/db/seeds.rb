@@ -5,13 +5,15 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
 DndApi.equipment.each do |item|
-    equip = Equipment.create(index: item['index', name:ite['name'], url:item['url'])
+    equip = Equipment.create(index: item['index'], name:item['name'], url: item['url'])
 end
 
 DndApi.proficencies.each do |proficency|
-    Proficency.create(ind)
+    Proficiency.create(index: proficency['index'], name: proficency['name'], url: proficency['url'])
 end
-# DndApi.classes.each do |class|
-#     Characterclass.create 
-# end
+
+DndApi.classes.each do |c|
+    Characterclass.create(index: c['index'], hit_die: c['hit_die']) 
+end
