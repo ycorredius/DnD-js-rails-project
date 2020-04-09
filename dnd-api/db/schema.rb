@@ -10,21 +10,42 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_09_171349) do
+ActiveRecord::Schema.define(version: 2020_04_09_201304) do
+
+  create_table "characterclass_equipments", force: :cascade do |t|
+    t.integer "equipment_id", null: false
+    t.integer "characterclass_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["characterclass_id"], name: "index_characterclass_equipments_on_characterclass_id"
+    t.index ["equipment_id"], name: "index_characterclass_equipments_on_equipment_id"
+  end
+
+  create_table "characterclass_proficiencies", force: :cascade do |t|
+    t.integer "proficiency_id", null: false
+    t.integer "characterclass_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["characterclass_id"], name: "index_characterclass_proficiencies_on_characterclass_id"
+    t.index ["proficiency_id"], name: "index_characterclass_proficiencies_on_proficiency_id"
+  end
 
   create_table "characterclasses", force: :cascade do |t|
     t.string "index"
     t.integer "hit_die"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "img_url"
   end
 
   create_table "characters", force: :cascade do |t|
     t.string "name"
     t.string "phrase"
     t.string "img_url"
+    t.integer "characterclass_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["characterclass_id"], name: "index_characters_on_characterclass_id"
   end
 
   create_table "equipment", force: :cascade do |t|
@@ -36,11 +57,15 @@ ActiveRecord::Schema.define(version: 2020_04_09_171349) do
   end
 
   create_table "proficiencies", force: :cascade do |t|
-    t.string "name"
     t.string "index"
-    t.string "url"
+    t.string "category"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "characterclass_equipments", "characterclasses"
+  add_foreign_key "characterclass_equipments", "equipment"
+  add_foreign_key "characterclass_proficiencies", "characterclasses"
+  add_foreign_key "characterclass_proficiencies", "proficiencies"
+  add_foreign_key "characters", "characterclasses"
 end
