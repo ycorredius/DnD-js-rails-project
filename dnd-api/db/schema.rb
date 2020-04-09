@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_09_201304) do
+ActiveRecord::Schema.define(version: 2020_04_09_233549) do
 
   create_table "characterclass_equipments", force: :cascade do |t|
     t.integer "equipment_id", null: false
@@ -45,7 +45,9 @@ ActiveRecord::Schema.define(version: 2020_04_09_201304) do
     t.integer "characterclass_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "races_id"
     t.index ["characterclass_id"], name: "index_characters_on_characterclass_id"
+    t.index ["races_id"], name: "index_characters_on_races_id"
   end
 
   create_table "equipment", force: :cascade do |t|
@@ -63,9 +65,21 @@ ActiveRecord::Schema.define(version: 2020_04_09_201304) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "races", force: :cascade do |t|
+    t.string "name"
+    t.string "speed"
+    t.string "age"
+    t.string "alignment"
+    t.string "size_description"
+    t.string "language_desc"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   add_foreign_key "characterclass_equipments", "characterclasses"
   add_foreign_key "characterclass_equipments", "equipment"
   add_foreign_key "characterclass_proficiencies", "characterclasses"
   add_foreign_key "characterclass_proficiencies", "proficiencies"
   add_foreign_key "characters", "characterclasses"
+  add_foreign_key "characters", "races", column: "races_id"
 end
