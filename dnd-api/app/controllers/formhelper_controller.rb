@@ -1,0 +1,2 @@
+class FormhelperController < ApplicationController
+end
