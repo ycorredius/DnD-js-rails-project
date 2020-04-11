@@ -1,6 +1,6 @@
 class Equipment < ApplicationRecord
     has_many :characterclass_equipments
-    has_many :equipment, through: :character_equipments
+    has_many :characterclasses, through: :characterclass_equipments
     
-    validates :index, uniqueness: true
+    validates :name, uniqueness: true
 end
