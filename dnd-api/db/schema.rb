@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 2020_04_09_233549) do
   end
 
   create_table "characterclasses", force: :cascade do |t|
-    t.string "index"
+    t.string "name"
     t.integer "hit_die"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -40,8 +40,6 @@ ActiveRecord::Schema.define(version: 2020_04_09_233549) do
 
   create_table "characters", force: :cascade do |t|
     t.string "name"
-    t.string "phrase"
-    t.string "img_url"
     t.integer "characterclass_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -52,14 +50,13 @@ ActiveRecord::Schema.define(version: 2020_04_09_233549) do
 
   create_table "equipment", force: :cascade do |t|
     t.string "name"
-    t.string "index"
     t.string "url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "proficiencies", force: :cascade do |t|
-    t.string "index"
+    t.string "name"
     t.string "category"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -67,7 +64,7 @@ ActiveRecord::Schema.define(version: 2020_04_09_233549) do
 
   create_table "races", force: :cascade do |t|
     t.string "name"
-    t.string "speed"
+    t.integer "speed"
     t.string "age"
     t.string "alignment"
     t.string "size_description"
