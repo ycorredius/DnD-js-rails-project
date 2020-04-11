@@ -30,9 +30,9 @@ class DndApi
 
     def self.races
         result = []
-        races = HTTParty.get(HTTParty.get("#{BASE_URL}races/")
+        races = HTTParty.get("#{BASE_URL}races/")
         races['results'].each do |r|
-            result.append(races_by_index = HTTParty.get("#{BASE_URL}RACES/#{r['index']}"))
+            result.append(races_by_index = HTTParty.get("#{BASE_URL}races/#{r['index']}"))
         end
         result
     end
