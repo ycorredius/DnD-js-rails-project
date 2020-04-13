@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_09_233549) do
+ActiveRecord::Schema.define(version: 2020_04_12_163330) do
 
   create_table "characterclass_equipments", force: :cascade do |t|
     t.integer "equipment_id", null: false
@@ -71,6 +71,7 @@ ActiveRecord::Schema.define(version: 2020_04_09_233549) do
     t.string "language_desc"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "img_url"
   end
 
   add_foreign_key "characterclass_equipments", "characterclasses"

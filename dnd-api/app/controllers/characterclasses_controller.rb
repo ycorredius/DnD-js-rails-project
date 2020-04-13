@@ -6,9 +6,8 @@ class CharacterclassesController < ApplicationController
     end
     
     def show
-        options = {}
-        options[:include] = [:proficiencies,:'proficiencies.id', :'proficiencies.name', :'proficiencies.category']
-        render json: CharacterclassSerializer.new(@characterclass,options).serialized_json
+        @characterclass = Characterclass.find_by(id: params[:id]) 
+        render json: CharacterclassSerializer.new(@characterclass).serialized_json
     end
 
     private

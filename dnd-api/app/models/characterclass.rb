@@ -6,4 +6,5 @@ class Characterclass < ApplicationRecord
     has_many :equipment, through: :characterclass_equipments
 
     validates :name, uniqueness: true
+    
 end
