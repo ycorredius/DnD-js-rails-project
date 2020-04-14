@@ -14,7 +14,6 @@ class CharacterApi{
                 .then(res => res.json())
     }
     
-    stat
     static getCharacterclassShow(characterclassId){
         return fetch(`${CharacterApi.base_url}/characterclasses/${characterclassId}`)
         .then(res => res.json())
@@ -35,6 +34,7 @@ class CharacterApi{
                 name,
                 hit_die,
                 img_url,
+                proficiencies
             }
         })
     }
@@ -148,7 +148,7 @@ class CharacterPage{
              <option value="Tiefling">Tiefling</option>
          </select>
         </p>
-        <input type="submit" value="Create Character" />
+        <input type="submit" value="Create Character">
         </form>
         </fieldset>
         </div>`
@@ -165,7 +165,7 @@ class CharacterPage{
         <h3>Characters</h3>
         ${this.renderForm()}
         <section id="characters">
-            ${this.renderCharacterList()}
+        ${this.renderCharacterList()}
         </section>
         `
     }
@@ -342,7 +342,8 @@ class Navbar {
     }
 }
 
-window.addEventListener("DOMContentLoaded",(event) =>{
+document.addEventListener("DOMContentLoaded",(event) =>{
+    event.preventDefault()
     let root = document.getElementById('root')
     Characterclass.getAll().then(characters =>{
         root.innerHTML = new CharacterclassesPage(characters).render()
@@ -358,32 +359,30 @@ window.addEventListener("DOMContentLoaded",(event) =>{
             Race.getAll().then(races =>{
                 root.innerHTML = new RacePage(races).render()
             })
-        }
+    }
         if(e.target.matches('#characterclasses')){
             Characterclass.getAll().then(characters =>{
                 root.innerHTML = new CharacterclassesPage(characters).render()
             });
         } 
-        
     })
-    document.addEventListener('submit',(e) => {
-                debugger
-                if(e.target.matches('#createCharacter')){
-                    characterName = document.getElementById('name').value
-                    characterClassName =document.getElementById('characterclass').value
-                    characterRace = document.getElementById('races').value
-                    characterClass = Characterclass.findByName(characterClassName)
-                    characterRace = Race.findByName(characterRace)
-                    FormData = {
-                        name: characterName,
-                        characterclass_id: characterClass.id,
-                        race_id: characterRace
-                    }
-                        Character.create(FormData)
-                        .then(character =>{
-                            document.querySelector('#characters').insertAdjacentHTML('beforeend', character.renderCharacter)
-                        })
-                    }
-            })
+    root.addEventListener('submit',(e) => {
+        if(e.target.matches('createCharacter')){
+            characterName = document.getElementById('name').value
+            characterClassName =document.getElementById('characterclass').value
+            characterRace = document.getElementById('races').value
+            characterClass = Characterclass.findByName(characterClassName)
+            characterRace = Race.findByName(characterRace)
+            FormData = {
+                name: characterName,
+                characterclass_id: characterClass.id,
+                race_id: characterRace
+            }
+            Character.create(FormData)
+                .then(character =>{
+                    document.querySelector('#characters').insertAdjacentHTML('beforeend', character.renderCharacter)
+                })
+        }
+    }) 
     
 })
