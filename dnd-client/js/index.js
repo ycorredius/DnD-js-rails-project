@@ -88,13 +88,12 @@ class Character{
    }
 
    renderCharacter(){
+       debugger
        let article = document.createElement('article')
         article.className = "fl w-100 w-50-m  w-25-ns pa2-ns"
         article.innerHTML = 
         `<article class="mw5 mw6-ns center pt4">
         <div class="aspect-ratio aspect-ratio--9x16 mb4">
-          <div class="aspect-ratio--object cover" style="background:url(${this.character.img_url}) center;"></div>
-          <div class="aspect-ratio--object cover" style="background:url(${this.race.img_url}) center;"></div>
         </div>
       </article>
       </article>
@@ -334,22 +333,21 @@ class Navbar {
         </a>
         <h1 class="mt2 mb0 baskerville i fw1 f1">DnD Character Creator</h1>
         <nav class="bt bb tc mw7 center mt4">
-          <a id="characterclasses" class="f6 f5-l link bg-animate black-80 hover-bg-light-green dib pa3 ph4-l" href="${CharacterApi.base_url}/characterclasses">Classes</a>
-          <a id="characters" class="f6 f5-l link bg-animate black-80 hover-bg-light-blue dib pa3 ph4-l" href="${CharacterApi.base_url}/characters">Characters</a>
-          <a id="races" class="f6 f5-l link bg-animate black-80 hover-bg-light-pink dib pa3 ph4-l" href="${CharacterApi.base_url}/races">Races</a>
+          <a id="characterclasses" class="f6 f5-l link bg-animate black-80 hover-bg-light-green dib pa3 ph4-l" >Classes</a>
+          <a id="characters" class="f6 f5-l link bg-animate black-80 hover-bg-light-blue dib pa3 ph4-l" >Characters</a>
+          <a id="races" class="f6 f5-l link bg-animate black-80 hover-bg-light-pink dib pa3 ph4-l" >Races</a>
         </nav>
         </header>`
     }
 }
 
 document.addEventListener("DOMContentLoaded",(event) =>{
-    event.preventDefault()
     let root = document.getElementById('root')
-    Characterclass.getAll().then(characters =>{
-        root.innerHTML = new CharacterclassesPage(characters).render()
+    Character.getAll().then(characters =>{
+        root.innerHTML = new CharacterPage(characters).render()
     })
+    
     document.addEventListener('click',(e) =>{
-        e.preventDefault()
         if(e.target.matches('#characters')){
             Character.getAll().then(characters =>{
                 root.innerHTML = new CharacterPage(characters).render()
@@ -366,23 +364,22 @@ document.addEventListener("DOMContentLoaded",(event) =>{
             });
         } 
     })
-    root.addEventListener('submit',(e) => {
-        if(e.target.matches('createCharacter')){
+    document.addEventListener('submit',(e) => {
+        e.preventDefault()
             characterName = document.getElementById('name').value
             characterClassName =document.getElementById('characterclass').value
             characterRace = document.getElementById('races').value
             characterClass = Characterclass.findByName(characterClassName)
             characterRace = Race.findByName(characterRace)
-            FormData = {
+            formData = {
                 name: characterName,
-                characterclass_id: characterClass.id,
+                characterclass_id: characterclass.id,
                 race_id: characterRace
             }
-            Character.create(FormData)
-                .then(character =>{
-                    document.querySelector('#characters').insertAdjacentHTML('beforeend', character.renderCharacter)
-                })
-        }
+            Character.create(formData).then(character =>{
+                        debugger
+                        document.querySelector('#characters').insertAdjacentHTML('beforeend', character.renderCharacter())
+                    })  
     }) 
     
 })
