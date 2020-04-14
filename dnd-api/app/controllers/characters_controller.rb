@@ -12,4 +12,13 @@ class CharactersController < ApplicationController
             render json: @character
         end
     end
+
+    def show
+        
+    end
+
+    private
+    def set_characterclass
+        @characterclass = Characterclass.find_by(id: params[:id])
+    end
 end

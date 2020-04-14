@@ -149,8 +149,8 @@ class CharacterPage{
          </select>
         </p>
         <input type="submit" value="Create Character" />
-        </fieldset>
         </form>
+        </fieldset>
         </div>`
     }
     renderCharacterList(){
@@ -161,11 +161,9 @@ class CharacterPage{
 
     render(){
         return `
-        ${Navbar.renderNavBar()}
-      </header>
+        ${Navbar.renderNavbar()}
         <h3>Characters</h3>
-        <section id="characterForm">
-            ${this.renderForm()}
+        ${this.renderForm()}
         <section id="characters">
             ${this.renderCharacterList()}
         </section>
@@ -205,7 +203,8 @@ class Characterclass {
         let article = document.createElement('article')
         article.className = "fl w-100 w-50-m  w-25-ns pa2-ns"
         article.innerHTML = 
-        `<article class="mw5 mw6-ns center pt4">
+        `
+        <article class="mw5 mw6-ns center pt4">
         <div class="aspect-ratio aspect-ratio--9x16 mb4">
           <div class="aspect-ratio--object cover" style="background:url(${this.img_url}) center;"></div>
         </div>
@@ -217,6 +216,13 @@ class Characterclass {
         </a>`
         return article.outerHTML
     }
+}
+
+class CharacterclassShowPage {
+    constructor(characterclass){
+        this.characterclass = characterclass
+    }
+    
 }
 
 Characterclass.all = []
@@ -282,7 +288,7 @@ class RacePage {
 
     render(){
         return `
-        ${Navbar.renderNavBar()}
+        ${Navbar.renderNavbar()}
         <h3>Races</h3>
         <section id="races">
             ${this.renderList()}
@@ -298,7 +304,7 @@ class CharacterclassesPage{
 
     render() {
         return `
-        ${Navbar.renderNavBar()}
+        ${Navbar.renderNavbar()}
         <section id="characterclasses">
             ${this.renderList()}
         </section>`
@@ -311,9 +317,19 @@ class CharacterclassesPage{
     }
 }
 
-class Navbar{
-    static renderNavBar(){
-        return `<header class="bg-white black-80 tc pv4 avenir">
+class Proficiencies {
+    constructor({name,category}){
+        this.name = name,
+        this.category = category
+    }
+}
+
+Proficiencies.all = []
+
+class Navbar {
+    static renderNavbar(){
+        return`
+        <header class="bg-white black-80 tc pv4 avenir">
         <a href="" class="bg-black-80 ba b--black dib pa3 w2 h2 br-100">
         </a>
         <h1 class="mt2 mb0 baskerville i fw1 f1">DnD Character Creator</h1>
@@ -322,7 +338,7 @@ class Navbar{
           <a id="characters" class="f6 f5-l link bg-animate black-80 hover-bg-light-blue dib pa3 ph4-l" href="${CharacterApi.base_url}/characters">Characters</a>
           <a id="races" class="f6 f5-l link bg-animate black-80 hover-bg-light-pink dib pa3 ph4-l" href="${CharacterApi.base_url}/races">Races</a>
         </nav>
-      </header>`
+        </header>`
     }
 }
 
@@ -330,26 +346,6 @@ window.addEventListener("DOMContentLoaded",(event) =>{
     let root = document.getElementById('root')
     Characterclass.getAll().then(characters =>{
         root.innerHTML = new CharacterclassesPage(characters).render()
-    })
-    document.addEventListener('submit',(e) => {
-        e.preventDefault()
-        debugger
-        if(e.target.matches('#createCharacter')){
-            characterName = document.getElementById('name').value
-            characterClassName =document.getElementById('characterclass').value
-            characterRace = document.getElementById('races').value
-            characterClass = Characterclass.findByName(characterClassName)
-            characterRace = Race.findByName(characterRace)
-            FormData = {
-                name: characterName,
-                characterclass_id: characterClass.id,
-                race_id: characterRace
-            }
-            Character.create(FormData)
-                .then(character =>{
-                    document.querySelector('#characters').insertAdjacentHTML('beforeend', character.renderCharacter)
-                })
-        }
     })
     document.addEventListener('click',(e) =>{
         e.preventDefault()
@@ -366,7 +362,28 @@ window.addEventListener("DOMContentLoaded",(event) =>{
         if(e.target.matches('#characterclasses')){
             Characterclass.getAll().then(characters =>{
                 root.innerHTML = new CharacterclassesPage(characters).render()
-            })
-        }
+            });
+        } 
+        
     })
+    document.addEventListener('submit',(e) => {
+                debugger
+                if(e.target.matches('#createCharacter')){
+                    characterName = document.getElementById('name').value
+                    characterClassName =document.getElementById('characterclass').value
+                    characterRace = document.getElementById('races').value
+                    characterClass = Characterclass.findByName(characterClassName)
+                    characterRace = Race.findByName(characterRace)
+                    FormData = {
+                        name: characterName,
+                        characterclass_id: characterClass.id,
+                        race_id: characterRace
+                    }
+                        Character.create(FormData)
+                        .then(character =>{
+                            document.querySelector('#characters').insertAdjacentHTML('beforeend', character.renderCharacter)
+                        })
+                    }
+            })
+    
 })
