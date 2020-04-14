@@ -24,17 +24,23 @@ class CharacterApi{
                     attributes: {
                         name,
                         hit_die,
-                        img_url,
-                        proficiencies
+                        img_url
                     }
                 },
+                included
             } = json
             return {
                 id,
                 name,
                 hit_die,
                 img_url,
-                proficiencies
+                proficiencies: included.map(({id,attributes: {name, category}})=>{
+                    return {
+                        id,
+                        name,
+                        category
+                    }
+                }) 
             }
         })
     }
@@ -87,9 +93,6 @@ class Character{
        return this
    }
 
-   static findById(id){
-       Character.all.find(characterclass => characterclass.id == id) 
-   }
 
    renderCharacter(){
        debugger
@@ -202,6 +205,10 @@ class Characterclass {
         return Characterclass.all.find(characterclass => characterclass.name == name)
     }
 
+    static findById(id){
+        return Characterclass.all.find(characterclass => characterclass.id == id) 
+    }
+
     renderCharacterclass(){
         let article = document.createElement('article')
         article.className = "fl w-100 w-50-m  w-25-ns pa2-ns"
@@ -222,15 +229,18 @@ class Characterclass {
         `
         return article.outerHTML
     }
-
     getCharacterClassDetails(){
-        
+        debugger
+            return CharacterApi.getCharacterclassShow(this.id)
+                .then(({proficiencies}) => {
+                    proficiencies.map(proficiencyAttributes => Proficiencies.findOrCreateBy(proficiencyAttributes))
+                    return this
+                })
     }
 
-    // proficiencies(){
-    //     return Proficiencies.all.filter(proficiency =>)
-    // }
-
+    proficiencies(){
+        debugger
+    }
 }
 
 
@@ -331,11 +341,12 @@ class CharacterclassShowPage{
         this.character = character
     }
 
-    // renderProficiencies(){
-    //     let ul = document.createElement('ul')
-    //     ul.id = "proficiencyList"
-    //     this.character.
-    // }
+    renderProficiencies(){
+        let ul = document.createElement('ul')
+        ul.id = "proficiencyList"
+        
+    }
+    
 }
 
 class Proficiencies {
@@ -343,6 +354,21 @@ class Proficiencies {
         this.name = name,
         this.category = category
     }
+
+    static findOrCreateBy(proficiencyAttributes){
+        let found = Proficiencies.all.find(proficiency => proficiency.id == proficiencyAttributes.id)
+        return found ? found :new Proficiencies(proficiencyAttributes).save()
+    }
+
+    save() {
+        Proficiencies.all.push(this)
+        return this
+    }
+
+    render(){
+        return`<li>${this.name}</li>`
+    }
+    
 }
 
 Proficiencies.all = []
@@ -386,9 +412,10 @@ document.addEventListener("DOMContentLoaded",(event) =>{
             });
         }
         if(e.target.matches('.showCharacterClass')){
-            let characterclass = Characterclass.findById(e.target.dataset.characterclassid)
-            characterclass.getCharacterClassDetails()
+            let characterClassId = parseInt(e.target.dataset.characterclassid)
+            let characterclass = Characterclass.findById(characterClassId)
             debugger
+            characterclass.getCharacterClassDetails()
         } 
     })
     document.addEventListener('submit',(e) => {
