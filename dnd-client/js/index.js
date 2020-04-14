@@ -201,6 +201,7 @@ class Characterclass {
     renderCharacterclass(){
         let article = document.createElement('article')
         article.className = "fl w-100 w-50-m  w-25-ns pa2-ns"
+        article.dataset['class_id'] = this.id
         article.innerHTML = 
         `
         <article class="mw5 mw6-ns center pt4">
@@ -209,20 +210,23 @@ class Characterclass {
         </div>
       </article>
       </article>
-        <a href="${CharacterApi.base_url}/characterclasses/${this.id}" class="ph2 ph0-ns pb3 link db">
+        <a href="#/characterclasses/${this.id}" class="showCharacter ph2 ph0-ns pb3 link db">
             <h3 class="f5 f4-ns mb0 black-90">${this.name}</h3>
             <h3 class="f6 f5 fw4 mt2 black-60">Hit-die - ${this.hit_die}</h3>
         </a>`
         return article.outerHTML
     }
+
+    getCharacterDetails(){
+
+    }
+
+    // proficiencies(){
+    //     return Proficiencies.all.filter(proficiency =>)
+    // }
+
 }
 
-class CharacterclassShowPage {
-    constructor(characterclass){
-        this.characterclass = characterclass
-    }
-    
-}
 
 Characterclass.all = []
 
@@ -316,6 +320,18 @@ class CharacterclassesPage{
     }
 }
 
+class CharacterclassShowPage{
+    constructor(character){
+        this.character = character
+    }
+
+    // renderProficiencies(){
+    //     let ul = document.createElement('ul')
+    //     ul.id = "proficiencyList"
+    //     this.character.
+    // }
+}
+
 class Proficiencies {
     constructor({name,category}){
         this.name = name,
@@ -362,6 +378,9 @@ document.addEventListener("DOMContentLoaded",(event) =>{
             Characterclass.getAll().then(characters =>{
                 root.innerHTML = new CharacterclassesPage(characters).render()
             });
+        }
+        if(e.target.matches('.showCharacter')){
+            debugger
         } 
     })
     document.addEventListener('submit',(e) => {

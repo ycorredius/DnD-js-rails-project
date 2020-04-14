@@ -7,7 +7,7 @@ class CharacterclassesController < ApplicationController
     
     def show
         options = {}
-        options[:include] = [:proficiencies,:'proficiencies.id', :'proficiencies.name', :'proficiencies.category']
+        options[:include] = [:proficiencies, :'proficiencies.name', :'proficiencies.category']
         render json: CharacterclassSerializer.new(@characterclass,options).serialized_json
     end
 
