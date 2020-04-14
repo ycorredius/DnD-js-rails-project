@@ -87,6 +87,10 @@ class Character{
        return this
    }
 
+   static findById(id){
+       Character.all.find(characterclass => characterclass.id == id) 
+   }
+
    renderCharacter(){
        debugger
        let article = document.createElement('article')
@@ -213,12 +217,14 @@ class Characterclass {
         <a href="#/characterclasses/${this.id}" class="showCharacter ph2 ph0-ns pb3 link db">
             <h3 class="f5 f4-ns mb0 black-90">${this.name}</h3>
             <h3 class="f6 f5 fw4 mt2 black-60">Hit-die - ${this.hit_die}</h3>
-        </a>`
+        </a>
+        <p><a href="#/characterclassess/${this.id}" class="showCharacterClass ba1 pa2 bg-moon-gray link" data-characterclassid="${this.id}">Class Details</a></p>
+        `
         return article.outerHTML
     }
 
-    getCharacterDetails(){
-
+    getCharacterClassDetails(){
+        
     }
 
     // proficiencies(){
@@ -379,7 +385,9 @@ document.addEventListener("DOMContentLoaded",(event) =>{
                 root.innerHTML = new CharacterclassesPage(characters).render()
             });
         }
-        if(e.target.matches('.showCharacter')){
+        if(e.target.matches('.showCharacterClass')){
+            let characterclass = Characterclass.findById(e.target.dataset.characterclassid)
+            characterclass.getCharacterClassDetails()
             debugger
         } 
     })
