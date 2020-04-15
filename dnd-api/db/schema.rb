@@ -43,9 +43,9 @@ ActiveRecord::Schema.define(version: 2020_04_12_163330) do
     t.integer "characterclass_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "races_id"
+    t.integer "race_id"
     t.index ["characterclass_id"], name: "index_characters_on_characterclass_id"
-    t.index ["races_id"], name: "index_characters_on_races_id"
+    t.index ["race_id"], name: "index_characters_on_race_id"
   end
 
   create_table "equipment", force: :cascade do |t|
@@ -79,5 +79,5 @@ ActiveRecord::Schema.define(version: 2020_04_12_163330) do
   add_foreign_key "characterclass_proficiencies", "characterclasses"
   add_foreign_key "characterclass_proficiencies", "proficiencies"
   add_foreign_key "characters", "characterclasses"
-  add_foreign_key "characters", "races", column: "races_id"
+  add_foreign_key "characters", "races"
 end

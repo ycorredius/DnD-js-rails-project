@@ -13,10 +13,6 @@ class CharactersController < ApplicationController
         end
     end
 
-    def show
-        
-    end
-
     private
     def set_characterclass
         @characterclass = Characterclass.find_by(id: params[:id])
