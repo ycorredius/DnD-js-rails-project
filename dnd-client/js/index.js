@@ -91,6 +91,18 @@ class Character{
        return this
    }
 
+   static sortCharacters(){
+       let comparison = 0
+        return Character.all.sort((a,b) => {
+            if(a.name < b.name){ 
+                comparison = -1
+            } else if(a.name > b.name){
+                comparison = 1
+            } 
+            return comparison
+        })
+   }
+
 
    renderCharacter(){
        let article = document.createElement('article')
@@ -155,7 +167,8 @@ class CharacterPage{
         <input type="submit" value="Create Character">
         </form>
         </fieldset>
-        </div>`
+        </div>
+        `
     }
     renderCharacterList(){
         return this.characters.map(character =>{
@@ -409,6 +422,7 @@ class Navbar {
 
 document.addEventListener("DOMContentLoaded",(event) =>{
     let root = document.getElementById('root')
+    let sortBtn = document.querySelector('#sort')
     Characterclass.getAll()
     Race.getAll()
     Character.getAll().then(characters =>{
@@ -455,5 +469,7 @@ document.addEventListener("DOMContentLoaded",(event) =>{
                         document.querySelector('#characters').insertAdjacentHTML('beforeend', character.renderCharacter())
                     })  
     }) 
-    
+    sortBtn.addEventListener('click',(e) => {
+        debugger
+    })
 })
