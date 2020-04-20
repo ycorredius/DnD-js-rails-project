@@ -92,8 +92,9 @@ class Character{
    }
 
    static sortCharacters(){
-       let comparison = 0
-        return Character.all.sort((a,b) => {
+       let sorted = Character.all
+        return sorted.sort((a,b) => {
+            let comparison = 0
             if(a.name.toLowerCase() < b.name.toLowerCase()){ 
                 comparison = -1
             } else if(a.name > b.name){
