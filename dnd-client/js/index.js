@@ -94,7 +94,7 @@ class Character{
    static sortCharacters(){
        let comparison = 0
         return Character.all.sort((a,b) => {
-            if(a.name < b.name){ 
+            if(a.name.toLowerCase() < b.name.toLowerCase()){ 
                 comparison = -1
             } else if(a.name > b.name){
                 comparison = 1
@@ -460,6 +460,7 @@ document.addEventListener("DOMContentLoaded",(event) =>{
             characterRaceName = document.getElementById('race').value
             characterClass = Characterclass.findByName(characterClassName)
             characterRace = Race.findByName(characterRaceName)
+            
             formData = {
                 name: characterName,
                 characterclass_id: characterClass.id,
@@ -470,6 +471,6 @@ document.addEventListener("DOMContentLoaded",(event) =>{
                     })  
     }) 
     sortBtn.addEventListener('click',(e) => {
-        debugger
+            root.innerHTML = new CharacterPage(Character.sortCharacters()).render()
     })
 })
